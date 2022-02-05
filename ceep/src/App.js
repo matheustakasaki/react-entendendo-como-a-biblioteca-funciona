@@ -4,6 +4,8 @@ import { Component } from "react";
 import "./assets/App.css";
 import './assets/index.css';
 import ListaCategorias from "./components/ListaCategorias";
+import Categorias from "./dados/Categorias";
+import ArrayNotas from "./dados/ArrayNotas";
 
 class App extends Component {
 
@@ -11,47 +13,22 @@ class App extends Component {
 
     super();
     // Array de Notas salvo no state do App
-    this.state = {
-      notas: [],
-      categorias: ['Games', 'Música']
-    }
+
+    this.categorias = new Categorias();
+    this.notas = new ArrayNotas();
   }
 
-  criarNota(titulo, texto, categoria) {
-    const novaNota = { titulo, texto, categoria }
-    const novoArrayNotas = [...this.state.notas, novaNota];
-
-    const novoEstado = {
-      notas: novoArrayNotas
-    }
-    this.setState(novoEstado)
-  }
-
-  deletarNota(index) {
-    let arrayNotas = this.state.notas;
-
-    // Função que deleta o item efetivamente - splice é uma função que altera o próprio array
-    arrayNotas.splice(index, 1)
-    this.setState({ notas: arrayNotas })
-  }
-
-  adicionarCategoria(nomeCategoria) {
-    const novoArrayCategorias = [...this.state.categorias, nomeCategoria];
-
-    const novoEstado = { ...this.state, categorias: novoArrayCategorias };
-    this.setState(novoEstado)
-  }
 
   render() {
     return (
       <section className="conteudo">
-        <FormularioCadastro categorias={this.state.categorias} criarNota={this.criarNota.bind(this)} />
+        <FormularioCadastro categorias={this.categorias.categorias} criarNota={this.notas.adicionarNota} />
 
         <main className="conteudo-principal">
-          <ListaCategorias adicionarCategoria={this.adicionarCategoria.bind(this)} categorias={this.state.categorias} />
+          <ListaCategorias adicionarCategoria={this.categorias.adicionarCategoria} categorias={this.categorias.categorias} />
 
         </main>
-        <ListadeNotas apagarNota={this.deletarNota.bind(this)} notas={this.state.notas} />
+        <ListadeNotas apagarNota={this.notas.apagarNotas} notas={this.notas.notas} />
       </ section>
     );
   }
