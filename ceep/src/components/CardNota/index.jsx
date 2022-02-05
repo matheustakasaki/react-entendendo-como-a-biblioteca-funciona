@@ -18,6 +18,7 @@ export default class CardNota extends Component {
                 </header>
                 <p className="card-nota_texto">{this.props.texto}</p>
                 <DeleteSVG onClick={this.apagar.bind(this)}/>
+                <h4>{this.props.categoria}</h4>
             </section>
         );
     }
