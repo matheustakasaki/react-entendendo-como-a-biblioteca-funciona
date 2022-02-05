@@ -12,7 +12,8 @@ class App extends Component {
     super();
     // Array de Notas salvo no state do App
     this.state = {
-      notas: []
+      notas: [],
+      categorias: []
     }
   }
 
@@ -32,19 +33,23 @@ class App extends Component {
     // Função que deleta o item efetivamente - splice é uma função que altera o próprio array
     arrayNotas.splice(index, 1)
     this.setState({ notas: arrayNotas })
+  }
 
-    console.log('deletar');
+  adicionarCategoria(nomeCategoria) {
+    const novoArrayCategorias = [...this.state.categorias, nomeCategoria];
+
+    const novoEstado = { ...this.state, categorias: novoArrayCategorias };
+    this.setState(novoEstado)
   }
 
   render() {
     return (
       <section className="conteudo">
-        <FormularioCadastro criarNota={this.criarNota.bind(this)} />
+        <FormularioCadastro categorias={this.state.categorias} criarNota={this.criarNota.bind(this)} />
 
-        <main>
-          <ListaCategorias>
+        <main className="conteudo-principal">
+          <ListaCategorias adicionarCategoria={this.adicionarCategoria.bind(this)} categorias={this.state.categorias} />
 
-          </ListaCategorias>
         </main>
         <ListadeNotas apagarNota={this.deletarNota.bind(this)} notas={this.state.notas} />
       </ section>
